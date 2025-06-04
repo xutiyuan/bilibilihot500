@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B站热门视频数据分析可视化</title>
+    <title>Document</title>
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'SimHei', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+        }
+        .card {
+            box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+        .chart-title {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .footer {
+            background: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .wordcloud-container {
+            max-height: 500px;
+            overflow: hidden;
+        }
+        /* 修改抖动效果，使其仅向上抖动一次 */
+        .hover-shake:hover {
+            animation: upwardShake 0.5s 1;
+        }
+        @keyframes upwardShake {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">B站视频数据分析</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#overview">数据概览</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#publishers">发布者分析</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#partitions">分区分析</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#time-analysis">时间分析</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#wordcloud">标题词云</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#correlation">相关性分析</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="header text-center">
+            <h1>B站500条综合热门视频数据分析</h1>
+        </div>
+
+        <!-- 数据概览卡片 -->
+        <div class="card">
+            <div class="card-header chart-title bg-light">
+                数据概览
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center hover-shake">
+                        <h5><i class="icon fas fa-video"></i>总视频数</h5>
+                        <p class="display-6">500</p>
+                    </div>
+                    <div class="col-md-4 text-center hover-shake">
+                        <h5><i class="icon fas fa-eye"></i>总播放量</h5>
+                        <p class="display-6">4.83亿次</p>
+                    </div>
+                    <div class="col-md-4 text-center hover-shake">
+                        <h5><i class="icon fas fa-comment-dots"></i>总弹幕数</h5>
+                        <p class="display-6">150万条</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 发布者分析 -->
+        <div class="card" id="publishers">
+            <div class="card-header chart-title bg-light">
+                总播放量前30名发布者
+            </div>
+            <div class="card-body">
+                <img src="top30_publisher_total_views_bar_chart.jpg" alt="发布者播放量柱状图" class="img-fluid">
+                <p class="mt-3">注：头部UP主流量优势显著，内容风格与选题是核心竞争力；腰部UP主需深耕特色赛道争取突破</p>
+            </div>
+        </div>
+
+        <!-- 分区分析 -->
+        <div class="card" id="partitions">
+            <div class="card-header chart-title bg-light">
+                各分区视频平均播放量
+            </div>
+            <div class="card-body">
+                <img src="bilibili_top500_hot_avg_views.jpg" alt="分区平均播放量柱状图" class="img-fluid">
+                <p class="mt-3">数据说明：鬼畜区平均播放量远超其他分区，娱乐性内容传播力强；舞蹈区数据较低，可能因内容更垂直</p>
+            </div>
+        </div>
+
+        <!-- 时间分析 -->
+        <div class="card" id="time-analysis">
+            <div class="card-header chart-title bg-light">
+                发布时间与平均播放量关系
+            </div>
+            <div class="card-body">
+                <img src="bilibili_top500_hot_avg_views_line_chart.jpg" alt="时间-播放量折线图" class="img-fluid">
+                <p class="mt-3">分析显示：7点、15点-21点发布的视频平均播放量较高，为用户活跃高峰期</p>
+            </div>
+        </div>
+
+        <!-- 标题词云 -->
+        <div class="card" id="wordcloud">
+            <div class="card-header chart-title bg-light">
+                视频标题关键词云图
+            </div>
+            <div class="card-body wordcloud-container">
+                <img src="video_title_wordcloud.jpg" alt="标题词云图" class="img-fluid">
+                <p class="mt-3">视频多围绕影视、动画、游戏展开，符合B站ACG社区属性；主打"互动感"和"挑战属性"，用"我挑战XX"等话术吸引用户参与；轻松、玩梗、生活化内容更受青睐，校园话题也有较高关注度</p>
+            </div>
+        </div>
+
+        <!-- 相关性分析 -->
+        <div class="card" id="correlation">
+            <div class="card-header chart-title bg-light">
+                播放量与弹幕数相关性分析
+            </div>
+            <div class="card-body">
+                <img src="views_danmaku_scatter.jpg" alt="播放量-弹幕数散点图" class="img-fluid">
+                <p class="mt-3">散点分布显示：播放量和弹幕数有弱正关联，但内容类型、设计才是决定互动的关键</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>数据来源：bilibil爬取</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
